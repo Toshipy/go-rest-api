@@ -3,9 +3,14 @@ package controller
 import (
 	"go-rest-api/model"
 	"go-rest-api/usecase"
+	"net/http"
+	"os"
+	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
-type IUserController intterface {
+type IUserController interface {
 	SignUp(c echo.Context) error
 	Login(c echo.Context) error
 	Logout(c echo.Context) error
@@ -25,7 +30,7 @@ func (uc *userController) SignUp(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	user, err := uc.uu.SignUp(user)
+	userRes, err := uc.uu.SignUp(user)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -38,7 +43,7 @@ func (uc *userController) Login(c echo.Context) error {
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	tokenString := uc.uu.Login(user)
+	tokenString, err := uc.uu.Login(user)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

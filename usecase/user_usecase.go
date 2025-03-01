@@ -6,13 +6,13 @@ import (
 	"os"
 	"time"
 
-	"golang.org/x/crypto/bcrypt"
 	"github.com/golang-jwt/jwt/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // UserのUsecaseのinterface
 type IUserUsecase interface {
-	SignUp(user model.User) (model.User, error)
+	SignUp(user model.User) (model.UserResponse, error)
 	Login(user model.User) (string, error)
 }
 
