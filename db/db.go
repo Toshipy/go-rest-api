@@ -20,8 +20,16 @@ func NewDB() *gorm.DB {
 		}
 	}
 
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+
 	// データベースに接続
-	url := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
+	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", user, password, host, port, dbname)
+
+	fmt.Println(url)
 
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 
